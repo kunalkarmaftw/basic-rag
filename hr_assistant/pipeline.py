@@ -11,6 +11,7 @@ from hr_assistant.llm import get_llm
 from hr_assistant.logger import get_logger
 from hr_assistant.splitter import split_into_chunks
 from hr_assistant.tools import create_search_tool
+from hr_assistant.tracing import check_langsmith_tracing
 from hr_assistant.vector_store import (
     build_vector_store,
     get_retriever,
@@ -45,6 +46,7 @@ def build_hr_assistant(file_path:str = config.Data_File_path):
     """Build the full rag agent. ready to answer questions."""
     logger.info("Building HR agent...")
     config.check_api_key()
+    check_langsmith_tracing()
 
     vector_store = build_vector_store_for_document(file_path)
     retriever = get_retriever(vector_store)

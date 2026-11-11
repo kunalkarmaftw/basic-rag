@@ -31,3 +31,22 @@ ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
   - If sick leave exceeds **2 consecutive days**, a medical certificate must be provided.
 
 These are the key points of the leave policy as outlined in the Acme Corp employee handbook.
+2026-11-11 23:37:14,208 | INFO | hr_assistant.llm | Initializing the LLM 'openai/gpt-oss-120b' 
+2026-11-11 23:37:14,897 | INFO | hr_assistant.pipeline | Building HR agent...
+2026-11-11 23:37:14,898 | INFO | hr_assistant.pipeline | Vector store already exists on disk, reusing it.
+2026-11-11 23:37:14,898 | INFO | hr_assistant.vector_store | Loadin FAISS index from 'data\faiss_index'
+2026-11-11 23:37:14,898 | INFO | hr_assistant.embeddings | Initializing embedding model 'jina-embeddings-v2-base-en'
+2026-11-11 23:37:14,901 | INFO | faiss.loader | Loading faiss with AVX2 support.
+2026-11-11 23:37:14,902 | INFO | faiss.loader | Could not load library with AVX2 support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
+2026-11-11 23:37:14,902 | INFO | faiss.loader | Loading faiss.
+2026-11-11 23:37:14,926 | INFO | faiss.loader | Successfully loaded faiss.
+2026-11-11 23:37:14,937 | INFO | hr_assistant.vector_store | Creating retiever with top_k=3
+2026-11-11 23:37:14,939 | INFO | hr_assistant.llm | Initializing the LLM 'openai/gpt-oss-120b' 
+2026-11-11 23:37:14,971 | INFO | hr_assistant.agent | Creating HR agent with 1 tools
+2026-11-11 23:37:14,975 | INFO | hr_assistant.agent | HR agent is ready
+2026-11-11 23:37:14,975 | INFO | hr_assistant.pipeline | HR assistant is ready to take questions.
+2026-11-11 23:37:20,555 | INFO | __main__ | === streamlit run : new question received ===
+2026-11-11 23:37:20,556 | INFO | hr_assistant.pipeline | User question: hi who are you?
+2026-11-11 23:37:21,527 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-11-11 23:37:21,551 | INFO | hr_assistant.pipeline | Final answer : Hello! I’m your friendly HR assistant for Acme Corp. I’m here to help you with any questions you have about our HR policies, procedures, or anything else you might need assistance with. How can I help you today?

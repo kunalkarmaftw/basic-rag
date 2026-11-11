@@ -1,0 +1,33 @@
+2026-11-11 23:22:41,013 | INFO | hr_assistant.llm | Initializing the LLM 'openai/gpt-oss-120b' 
+2026-11-11 23:22:41,708 | INFO | hr_assistant.pipeline | Building HR agent...
+2026-11-11 23:22:41,708 | INFO | hr_assistant.pipeline | Vector store already exists on disk, reusing it.
+2026-11-11 23:22:41,708 | INFO | hr_assistant.vector_store | Loadin FAISS index from 'data\faiss_index'
+2026-11-11 23:22:41,709 | INFO | hr_assistant.embeddings | Initializing embedding model 'jina-embeddings-v2-base-en'
+2026-11-11 23:22:41,712 | INFO | faiss.loader | Loading faiss with AVX2 support.
+2026-11-11 23:22:41,712 | INFO | faiss.loader | Could not load library with AVX2 support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
+2026-11-11 23:22:41,717 | INFO | faiss.loader | Loading faiss.
+2026-11-11 23:22:41,744 | INFO | faiss.loader | Successfully loaded faiss.
+2026-11-11 23:22:41,755 | INFO | hr_assistant.vector_store | Creating retiever with top_k=3
+2026-11-11 23:22:41,758 | INFO | hr_assistant.llm | Initializing the LLM 'openai/gpt-oss-120b' 
+2026-11-11 23:22:41,788 | INFO | hr_assistant.agent | Creating HR agent with 1 tools
+2026-11-11 23:22:41,793 | INFO | hr_assistant.agent | HR agent is ready
+2026-11-11 23:22:41,793 | INFO | hr_assistant.pipeline | HR assistant is ready to take questions.
+2026-11-11 23:22:48,749 | INFO | __main__ | === streamlit run : new question received ===
+2026-11-11 23:22:48,751 | INFO | hr_assistant.pipeline | User question: tell about the leave policy.
+2026-11-11 23:22:49,418 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-11-11 23:22:49,427 | INFO | hr_assistant.tools | search _hr_policy called with query : What is the leave policy at Acme crop?
+2026-11-11 23:22:50,133 | INFO | hr_assistant.tools | found 3  matching chunk(s)
+2026-11-11 23:22:50,686 | INFO | httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-11-11 23:22:50,688 | INFO | hr_assistant.pipeline | Final answer : **Acme Corp – Leave Policy**
+
+- **Annual (Paid) Leave**  
+  - Full‑time employees receive **20 days of paid annual leave** each calendar year.  
+  - Requests must be entered in the HR portal **at least 5 working days before** the intended start date.  
+  - Up to **5 unused days** can be carried forward to the next year; any additional unused days are forfeited.
+
+- **Sick Leave**  
+  - Employees are entitled to **10 paid sick days** per year.  
+  - If sick leave exceeds **2 consecutive days**, a medical certificate must be provided.
+
+These are the key points of the leave policy as outlined in the Acme Corp employee handbook.

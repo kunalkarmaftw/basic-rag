@@ -8,6 +8,7 @@ from hr_assistant import config
 from hr_assistant.agent import create_hr_agent
 from hr_assistant.document_loader import load_document
 from hr_assistant.llm import get_llm
+from hr_assistant.logger import get_logger
 from hr_assistant.splitter import split_into_chunks
 from hr_assistant.tools import create_search_tool
 from hr_assistant.vector_store import (
@@ -18,14 +19,18 @@ from hr_assistant.vector_store import (
     vector_store_exist,
 )
 
+logger = get_logger(__name__)
+
 
 def build_vector_store_for_document(file_path: str = config.Data_File_path):
     """Load + split + embed the document, reusing a saved index if we have one."""
     if vector_store_exist():
         print("Found a saved vector store on disk, loading it (fast, no re-embeddings).")
+        logger.info("Vector store already exists on disk, reusing it.")
         return load_vector_store()
 
     print("No saved vector store found, building one from scratch...")
+    logger.info("No vector store on disk, building from scratch.")
     documents = load_document(file_path)
     chunks = split_into_chunks(documents)
     print(f"loaded '{file_path}' and split it into {len(chunks)} chunks.")
@@ -38,6 +43,7 @@ def build_vector_store_for_document(file_path: str = config.Data_File_path):
 
 def build_hr_assistant(file_path:str = config.Data_File_path):
     """Build the full rag agent. ready to answer questions."""
+    logger.info("Building HR agent...")
     config.check_api_key()
 
     vector_store = build_vector_store_for_document(file_path)
@@ -47,9 +53,13 @@ def build_hr_assistant(file_path:str = config.Data_File_path):
     llm = get_llm()
     agent = create_hr_agent(llm, [search_tool])
 
+    logger.info("HR assistant is ready to take questions.")
     return agent 
 
 def ask(agent, question:str)-> str:
     """Ask the question and returns its final answer as plain text."""
+    logger.info("User question: %s", question)
     response = agent.invoke({"messages":[{"role":"user","content":question}]})
-    return response["messages"][-1].content
+    answer = response["messages"][-1].content
+    logger.info("Final answer : %s", answer)
+    return answer

@@ -7,6 +7,7 @@ Each step is handled by its own small module.
 from hr_assistant import config
 from hr_assistant.agent import create_hr_agent
 from hr_assistant.document_loader import load_document
+from hr_assistant.guardrails import REFUSAL_MESSAGE, check_input, check_output
 from hr_assistant.llm import get_llm
 from hr_assistant.logger import get_logger
 from hr_assistant.splitter import split_into_chunks
@@ -61,7 +62,21 @@ def build_hr_assistant(file_path:str = config.Data_File_path):
 def ask(agent, question:str)-> str:
     """Ask the question and returns its final answer as plain text."""
     logger.info("User question: %s", question)
+    
+
+    ## input guard - to get safe inputs
+    input_is_safe, _ = check_input(question)  ## so input is safe will be 1 or 0 and the _ is for the reason.
+    if not input_is_safe:
+        return REFUSAL_MESSAGE
+
     response = agent.invoke({"messages":[{"role":"user","content":question}]})
     answer = response["messages"][-1].content
     logger.info("Final answer : %s", answer)
+
+    ## output guard - to check agents give safe answers
+    output_is_safe, _ = check_output(answer)  #### so output is safe will be 1 or 0 and the _ is for the reason.
+    if not output_is_safe:
+        return REFUSAL_MESSAGE
+
+    
     return answer
